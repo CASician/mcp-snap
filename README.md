@@ -47,9 +47,100 @@ MCP Client Started!
 Type your queries or 'quit' to exit.
 Type 'prompt' to select a pre-written prompt. 
 
-Query: list all the available tpl agencies and their websites. 
+ >>> Query: list all the available tpl agencies and their websites. 
 ```
 
 If the model decides to use a tool, you’ll see it in the log and terminal output.
 Otherwise, the model will answer directly.
 
+## How it works
+
+### Directory structure:
+
+The main files are the following:
+
+```
+MCP Snap/
+├── chat/
+│   ├── client.py               # main logic
+│   ├── snap4_prompts.py        # pre-written prompts handler 
+│   ├── tool_schema_builder.py  # adds tools to system message 
+│   ├── system_message.txt      # main instructions for the model 
+│   └── README.md 
+├── server/
+│   ├── server.py               # all the tools, resources and prompts
+│   └── README.md 
+├── llama4/
+│   ├── lab_llm.py              # main connection to DISIT and model answer handling
+│   ├── token_manager.py        # this and below, the files are identical to the original 
+│   ├── clearmml_config.json 
+│   ├── [token_stored.json]      
+│   ├── [user_credentials.json]
+│   └── README.md 
+├── logs/
+│   ├── llm_output.log
+│   └── [other logs...] 
+├── init.sh
+├── chat.sh
+└── README.md
+```
+
+### What happens to the user's query?
+
+The user's query is handled by the `chat_loop()` function in `chat/client.py`. It runs a loop until the user decides to quit. The messages are all stored and handled by `process_query(query)`. More precisely:
+
+```
+        Process a query using LLM and available tools/resources/prompts. 
+        Workflow:
+        1. Append the user's query in messages = []
+        2. Call the LLM with user's query.
+        3. Check if the answer has "function_call"
+            4a. NO FUNCTION CALL: return answer (and append it to messages)
+        4. FUNCTION CALL DETECTED: parse the answer to reconstruct function.
+        5. Ask server to call the function. 
+        6. Append result in messages. 
+        7. Call the LLM again, to process the answer in natural language 
+        8. Append second answer to messages and return it. 
+  
+
+        The LLM returns a json object as such:
+        { 
+            "choices": [
+                "message": {
+                    "role": "assistant",
+                    "content": "THE ANSWER" # if there is a function call, this is `null`
+                    "function_call": {
+                        "name": "function_name"
+                        "arguments": { ... } 
+                    }
+                }
+            ]    
+        }
+
+        This structure mimics what is the standard OpenAI structure. But it needs improvements. 
+``` 
+
+If you want to check if the model has allucinated or it actually executed a function call, open `log/llm_output.log`, scroll until the end and look for how the first answer has been parsed. 
+If you see:
+```
+PARSE 1/2/3
+FIRST RESPONSE: JSON OBJECT 
+FUNCTION CALLED: function_name
+```
+the function has been called successfully with the parameters stated in FIRST RESPONSE.  
+Otherwise, you will only see: 
+
+```
+PARSE 1 FAIL
+PARSE 2 FAIL
+PARSE 3 FAIL
+FIRST RESPONSE: [full answer received in chat]
+```
+
+### Deeper down the rabbit hole 
+1. why parsing?
+1. how I invoke the model with actual structure.
+1. pre-written prompts
+1. system message and tool schema builder
+
+To see all these, go to the other READMEs. `chat/README.md` and `server/README.md` 

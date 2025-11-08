@@ -152,7 +152,7 @@ class MCPClient:
         8. Append second answer to messages and return it. 
   
 
-        The LLM returns a json object like this:
+        The LLM returns a json object as such:
         { 
             "choices": [
                 "message": {
@@ -297,8 +297,10 @@ class MCPClient:
             try:
                 query = input(f"\n {GREEN}>>> Query: {NC}").strip()
 
+                # =========== QUITTING THE CHAT INTERFACE ==========
                 if query.lower() == 'quit':
                     break
+                # =========== PRE-WRITTEN PROMPTS HANDLING ==========
                 if query.lower() in valid_options:
                     chosen_prompt, user_args  = self.choose_prompt.start(self.prompts)
                     if chosen_prompt == None:
@@ -308,13 +310,13 @@ class MCPClient:
                     print(f"\n {GREEN}>>> Query: {NC}" + query) 
                     response = await self.process_query(query)
                     print("\n" + response)
+                # =========== DIRECT QUERY PROCESSING ==========
                 else:
                     response = await self.process_query(query)
                     print("\n" + response)
 
             except Exception as e:
                 print(f"\n Error: {str(e)} + {traceback.format_exc()}")
-                # print(traceback.format_exc())
 
     async def cleanup(self):
         await self.exit_stack.aclose()

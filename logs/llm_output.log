@@ -1523,7 +1523,6 @@ ValueError: Missing required arguments: {'bus_data'}
     "role": "assistant",
     "content": "The tool call were not successful due to a validation error. The tool `get_location` expects string type for the parameters `maxDists` and `maxResults`, and a string or bool for `excludePOI`. However, integer values were provided for `maxDists` and `maxResults`, and a boolean value for `excludePOI`. \n\nLet's try again with the correct type:\n\n```json\n{\n  \"function_call\": {\n    \"name\": \"get_location\",\n    \"arguments\": {\n      \"position\": \"\",\n      \"search\": \"Cascine\",\n      \"searchMode\": \"AND\",\n      \"maxDists\": \"10\",\n      \"excludePOI\": \"false\",\n      \"maxResults\": \"10\"\n    }\n  }\n}\n```\n\nPlease let me know if this works. I will then proceed with the rest of the coordinates."
 }
-<<<<<<< HEAD
 2025-11-08 16:34:36,608 Processing request of type ListToolsRequest
 2025-11-08 16:34:36,614 Processing request of type ListResourcesRequest
 2025-11-08 16:34:36,616 Processing request of type ListPromptsRequest
