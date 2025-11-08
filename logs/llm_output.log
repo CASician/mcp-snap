@@ -1560,3 +1560,38 @@ ValueError: Missing required arguments: {'bus_data'}
 2025-11-08 18:09:46,384 Processing request of type ListResourcesRequest
 2025-11-08 18:09:46,387 Processing request of type ListPromptsRequest
 2025-11-08 18:09:46,389 -------- NEW CONVERSATION --------
+2025-11-08 18:37:13,910 Processing request of type ListToolsRequest
+2025-11-08 18:37:13,916 Processing request of type ListResourcesRequest
+2025-11-08 18:37:13,918 Processing request of type ListPromptsRequest
+2025-11-08 18:37:13,920 -------- NEW CONVERSATION --------
+2025-11-08 18:37:40,018 Processing request of type GetPromptRequest
+2025-11-08 18:37:40,023 USER QUERY: Hello, sich! but people call you ok
+2025-11-08 18:37:54,446 PARSE 2 FAIL: llm DID NOT invoke correctly a function
+2025-11-08 18:37:54,450 FIRST RESPONSE: {
+    "role": "assistant",
+    "content": "Hello! I'm here to help you. It seems like there was a bit of confusion with \"sich\" and \"ok\", but I'm ready to assist you with any questions or tasks you have. How can I help you today?"
+}
+2025-11-08 19:12:23,578 Processing request of type ListToolsRequest
+2025-11-08 19:12:23,584 Processing request of type ListResourcesRequest
+2025-11-08 19:12:23,586 Processing request of type ListPromptsRequest
+2025-11-08 19:12:23,588 -------- NEW CONVERSATION --------
+2025-11-08 19:21:48,295 Processing request of type ListToolsRequest
+2025-11-08 19:21:48,301 Processing request of type ListResourcesRequest
+2025-11-08 19:21:48,304 Processing request of type ListPromptsRequest
+2025-11-08 19:21:48,305 -------- NEW CONVERSATION --------
+2025-11-08 19:24:42,876 Processing request of type ListToolsRequest
+2025-11-08 19:24:42,882 Processing request of type ListResourcesRequest
+2025-11-08 19:24:42,885 Processing request of type ListPromptsRequest
+2025-11-08 19:24:42,888 -------- NEW CONVERSATION --------
+2025-11-08 19:27:33,831 Processing request of type ListToolsRequest
+2025-11-08 19:27:33,837 Processing request of type ListResourcesRequest
+2025-11-08 19:27:33,840 Processing request of type ListPromptsRequest
+2025-11-08 19:27:33,841 -------- NEW CONVERSATION --------
+2025-11-08 19:31:35,002 Processing request of type ListToolsRequest
+2025-11-08 19:31:35,008 Processing request of type ListResourcesRequest
+2025-11-08 19:31:35,011 Processing request of type ListPromptsRequest
+2025-11-08 19:31:35,013 -------- NEW CONVERSATION --------
+2025-11-08 19:35:59,450 Processing request of type ListToolsRequest
+2025-11-08 19:35:59,456 Processing request of type ListResourcesRequest
+2025-11-08 19:35:59,459 Processing request of type ListPromptsRequest
+2025-11-08 19:35:59,460 -------- NEW CONVERSATION --------
