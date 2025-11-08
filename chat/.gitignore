@@ -1,0 +1,6 @@
+.env
+venv
+.idea
+__pycache__
+llama4/user_credentials.json
+llama4/token_stored.json
