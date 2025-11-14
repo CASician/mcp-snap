@@ -805,19 +805,21 @@ async def plan_route(start: str, end: str, route_type: str = None, date: str = N
 # ------------------------ FEEDBACKS ------------------------
 
 @mcp.prompt("greetings")
-async def greetings(name: str = None, surname: str = None, nickname: str = None):
+async def greetings(name: str = None, surname: str = None):
     """
-    Greet the user, given their name. It would be great to have the actual prompt in this description.
-
+    Greet the user, given their name. If no names are provided, the user will be greeted with a sentence about cats. 
     Args:
         name (str, optional): The name of the user.
         surname (str, optional): The surname of the user 
-        nickname (str, optional): The nickname of the user.
     """
-    hello_line = f"Hello, {name}!" if name else "Hello, sir"
-    hello_line1 = f" I heard your surname is {surname}" if surname else ""
-    hello_line2 = f" but people call you {nickname}" if nickname else ""
-    return hello_line + hello_line1 + hello_line2
+    if name:
+        if surname:
+            hello_line = f"Greet the user, using their name and surname: {name} {surname}. "
+        else: 
+            hello_line = f"Greet the user, using their name: {name}. "
+    else: 
+        hello_line = f"Greet the user, using a sentence about cats. " 
+    return hello_line 
 
 # ------------------------ ROUTING ------------------------
 @mcp.tool()

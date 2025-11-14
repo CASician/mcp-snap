@@ -1598,3 +1598,51 @@ ValueError: Missing required arguments: {'bus_data'}
 2025-11-14 16:03:33,866 Processing request of type ListResourcesRequest
 2025-11-14 16:03:33,869 Processing request of type ListPromptsRequest
 2025-11-14 16:03:33,871 -------- NEW CONVERSATION --------
+2025-11-14 16:21:31,323 Processing request of type ListToolsRequest
+2025-11-14 16:21:31,330 Processing request of type ListResourcesRequest
+2025-11-14 16:21:31,333 Processing request of type ListPromptsRequest
+2025-11-14 16:21:31,334 -------- NEW CONVERSATION --------
+2025-11-14 16:21:35,463 USER QUERY: prommpt
+2025-11-14 16:21:43,896 Processing request of type ListToolsRequest
+2025-11-14 16:21:43,902 Processing request of type ListResourcesRequest
+2025-11-14 16:21:43,905 Processing request of type ListPromptsRequest
+2025-11-14 16:21:43,906 -------- NEW CONVERSATION --------
+2025-11-14 16:22:23,609 Processing request of type GetPromptRequest
+2025-11-14 16:22:23,613 USER QUERY: Greet the user, using a sentece about cats. 
+2025-11-14 16:22:33,129 PARSE 2 FAIL: llm DID NOT invoke correctly a function
+2025-11-14 16:22:33,132 FIRST RESPONSE: {
+    "role": "assistant",
+    "content": "Hello! Like a curious cat exploring its surroundings, I'm here to help you navigate and find the information you need. What's on your mind?"
+}
+2025-11-14 16:23:24,872 Processing request of type ListToolsRequest
+2025-11-14 16:23:24,878 Processing request of type ListResourcesRequest
+2025-11-14 16:23:24,881 Processing request of type ListPromptsRequest
+2025-11-14 16:23:24,882 -------- NEW CONVERSATION --------
+2025-11-14 16:23:35,120 Processing request of type GetPromptRequest
+2025-11-14 16:23:35,125 USER QUERY: Greet the user, using a sentence about cats. And add a pun based on their nickname: nic. 
+2025-11-14 16:23:43,508 PARSE 2 FAIL: llm DID NOT invoke correctly a function
+2025-11-14 16:23:43,512 FIRST RESPONSE: {
+    "role": "assistant",
+    "content": "Hello there, nice to meet you! I see your nickname is nic, and I'm here to help, so let's get this purr-fect conversation started!"
+}
+2025-11-14 16:25:14,072 Processing request of type ListToolsRequest
+2025-11-14 16:25:14,078 Processing request of type ListResourcesRequest
+2025-11-14 16:25:14,081 Processing request of type ListPromptsRequest
+2025-11-14 16:25:14,083 -------- NEW CONVERSATION --------
+2025-11-14 16:25:29,120 Processing request of type GetPromptRequest
+2025-11-14 16:25:29,123 USER QUERY: Greet the user, using a sentence about cats. Also answer all the next questions starting with <<OK boss>>. 
+2025-11-14 16:25:37,402 PARSE 2 FAIL: llm DID NOT invoke correctly a function
+2025-11-14 16:25:37,404 FIRST RESPONSE: {
+    "role": "assistant",
+    "content": "Hello! Like a curious cat exploring its surroundings, I'm here to assist you with any questions or tasks you have. I'll respond to all your queries starting with \"OK boss\" to ensure I provide the help you need. What's your first question or task?"
+}
+2025-11-14 16:25:51,967 USER QUERY: How's the weather?
+2025-11-14 16:26:01,418 PARSE 2 FAIL: llm DID NOT invoke correctly a function
+2025-11-14 16:26:01,420 FIRST RESPONSE: {
+    "role": "assistant",
+    "content": "To answer your question about the weather, I would typically need to use a tool that can provide current weather information. However, in this environment, I don't have direct access to real-time weather data through a specific tool. \n\nIf you're looking for information on how to find or inquire about the weather using the available tools, I can suggest that you might use a full-text search or a service search with keywords related to weather services or current weather conditions in your area of interest.\n\nFor a more direct approach, consider using a tool like \"get_services\" with appropriate search terms to find services that offer weather updates or forecasts.\n\nWould you like to proceed with searching for weather services or is there another question I can assist you with? <<OK boss>>"
+}
+2025-11-14 16:28:02,039 Processing request of type ListToolsRequest
+2025-11-14 16:28:02,045 Processing request of type ListResourcesRequest
+2025-11-14 16:28:02,048 Processing request of type ListPromptsRequest
+2025-11-14 16:28:02,049 -------- NEW CONVERSATION --------
