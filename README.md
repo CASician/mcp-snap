@@ -90,34 +90,34 @@ MCP Snap/
 The user's query is handled by the `chat_loop()` function in `chat/client.py`. It runs a loop until the user decides to quit. The messages are all stored and handled by `process_query(query)`. More precisely:
 
 ```
-        Process a query using LLM and available tools/resources/prompts. 
-        Workflow:
-        1. Append the user's query in messages = []
-        2. Call the LLM with user's query.
-        3. Check if the answer has "function_call"
-            4a. NO FUNCTION CALL: return answer (and append it to messages)
-        4. FUNCTION CALL DETECTED: parse the answer to reconstruct function.
-        5. Ask server to call the function. 
-        6. Append result in messages. 
-        7. Call the LLM again, to process the answer in natural language 
-        8. Append second answer to messages and return it. 
-  
+Process a query using LLM and available tools/resources/prompts. 
+Workflow:
+1. Append the user's query in messages = []
+2. Call the LLM with user's query.
+3. Check if the answer has "function_call"
+    4a. NO FUNCTION CALL: return answer (and append it to messages)
+4. FUNCTION CALL DETECTED: parse the answer to reconstruct function.
+5. Ask server to call the function. 
+6. Append result in messages. 
+7. Call the LLM again, to process the answer in natural language 
+8. Append second answer to messages and return it. 
 
-        The LLM returns a json object as such:
-        { 
-            "choices": [
-                "message": {
-                    "role": "assistant",
-                    "content": "THE ANSWER" # if there is a function call, this is `null`
-                    "function_call": {
-                        "name": "function_name"
-                        "arguments": { ... } 
-                    }
-                }
-            ]    
+
+The LLM returns a json object as such:
+{ 
+    "choices": [
+        "message": {
+            "role": "assistant",
+            "content": "THE ANSWER" # if there is a function call, this is `null`
+            "function_call": {
+                "name": "function_name"
+                "arguments": { ... } 
+            }
         }
+    ]    
+}
 
-        This structure mimics what is the standard OpenAI structure. But it needs improvements. 
+This structure mimics what is the standard OpenAI structure. But it needs improvements. 
 ``` 
 
 If you want to check if the model has allucinated or it actually executed a function call, open `log/llm_output.log`, scroll until the end and look for how the first answer has been parsed. 
@@ -137,10 +137,3 @@ PARSE 3 FAIL
 FIRST RESPONSE: [full answer received in chat]
 ```
 
-### Deeper down the rabbit hole 
-1. why parsing?
-1. how I invoke the model with actual structure.
-1. pre-written prompts
-1. system message and tool schema builder
-
-To see all these, go to the other READMEs. `chat/README.md` and `server/README.md` 

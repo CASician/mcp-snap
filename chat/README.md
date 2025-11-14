@@ -12,138 +12,35 @@ It automatically detects and uses tools provided by the server via MCP, allowing
 - Maintains interactive chat loop
 - Logs all interactions to `logs/llm_output.log`
 
+## Chat Interface
+
+In `client.py`, the main logic serves the purpose to create a chat interface between the user and the connected LLM. 
+
+### System Message
+
+The LLM is instructed that can use server primitives such as Resources or Tools. 
+This instruction is specified in `system_message.txt`. 
+Inside `client.py` the `system_message` is passed to the llm as the first object in the `messages`list. 
+The description of all available tools and their arguments is also passed to the `messages` list. Since all the descriptions are sent to the client by the server, in order to add them to the list of messages `tool_schema_builder.py` is used to create a string for each primitive that the server exposes. 
+
+> [! NOTE]
+> The function calling in OpenAI style implies that the functions are passed at every invokation.
+> But for token optimization, in this implementation, they are passed only once per conversation with the system message. 
+
+### Query handling
+
+After the user inserts a prompt, it's verified if it corresponds to two key words: `quit` or `prompt`. 
+The first one closes the conversation. The second one opens the pre-written prompt window. In the latter, the user can choose one of the prompts that the server has among its primitives. This is handled by `snap4_prompts.py`.
 
 
-##  How to use
-If you read this from the VM, skip to nr. 3
+If the query doesn't correspond to any keywords, then it's sent to the llm for a proper answer. If the LLM decides to answer with a function call, it's caught by the client and sent to the server for execution. When the client receives the answer, it's added to the list of messages and a new LLM invokation is required. 
+This second invokation contains both the user's query and the answer from the tool execution. 
+It is expected from the LLM to answer in natural language and analyze the results.
 
-### 1. Prepare a Server
+### After the query handling 
 
-You need an MCP-compatible server. It will run in background. 
-See [mcp-server-snap](https://github.com/casician/mcp-server-snap.git) for more info.
-
-
-### 2. Connect to DISIT LAB LLM. 
-In the directory `llama4` create a new file called `user_credentials.json`.
-
-It is Used by the client to authenticate to Snap4City and obtain an access token. You must use a Snap4City account that has been granted with the necessary API rules and usage limits.
-
-```json
-{
-  "username": "<SNAP4CITY_USERNAME>",
-  "password": "<PASSWORD>"
-}
-```
+Wether a tool was called or not, the client returns to the user an answer. That answer is sent to the host that will print it. 
 
 
-### 3. Run the Client (ONLY from the VM)
-
-```bash
-chat
-```
-This is an alias for `./chat.sh` command.
-
-If successful, you’ll see the token-handling and an output like:
-
-```
-Connected to server with:
-TOOLS: [...]
-RESOURCES: [...]
-PROMPTS: [...]
-```
-
-### 3.1 Run the Client (outside users)
-
-If you have the server folder and the client folder at the same level:
-```bash
-cd mcp-client-snap
-python client.py ../mcp-server-snap/server.py
-```
-Adapt the `server.py` path to your dir structure. 
-
->[!TIP]
-> If you receive errors saying that the server is not running:
-> 1. Open a new terminal
-> 2. Go to server directory and turn it on with: 
-> 
-> ```bash
-> python server.py
-> ```
-> 
-> 3. Go back to the original terminal and run the commands above again. 
-
-
-If successful, you’ll see the token-handling and an output like:
-
-```
-Connected to server with:
-TOOLS: [...]
-RESOURCES: [...]
-PROMPTS: [...]
-```
-
-### 4. Start Chatting
-
-Once connected, you can enter queries interactively:
-
-```
-MCP Client Started!
-Type your queries or 'quit' to exit.
-
-Query: list all the available tpl agencies and their websites. 
-```
-
-If the model decides to use a tool, you’ll see it in the log and terminal output.
-Otherwise, the model will answer directly.
-
-
-##  Logging
-
-All queries, raw model responses, and tool calls are saved in:
-
-```
-log/llm_output.log
-```
-
-Example excerpt:
-
-```
-2025-10-02 09:23:17 USER QUERY: calculate the area of a circle with radius 5
-2025-10-02 09:23:19 RAW MODEL RESPONSE: {'role': 'assistant', 'content': None, 'function_call': {'name': 'tool_name', 'arguments': {...}}}
-2025-10-02 09:23:19 FUNCTION CALLED: math_tool
-2025-10-02 09:23:19 ARGS: {"operation": "area_circle", "radius": 5}
-2025-10-02 09:23:20 FOLLOWUP RESPONSE: The area is approximately 78.54.
-```
-
-
-## Cleanup
-
-When exiting (typing `quit`), the client automatically closes all asynchronous resources.
-
-
-## ️ Troubleshooting
-
-* **Error: "Usage: python client.py <path_to_server_script>"**
-  → You didn't pass the path to the MCP server file. Check in `chat.sh` if the path is valid. 
-
-* **Virtual environment issues**
-  → Make sure the correct Python interpreter is active.
-
-* **Connection to DISIT resources**
-  → Make sure that the credentials are valid and passed correctly as in `How to use: 2. ` 
-
-
-## Notes
-
-* The model used is:
-
-  ```
-  llama-4-inference
-  ```
-
-
-* Tool calls follow the OpenAI-style `function_call` format, so the client should work with any LLM that supports it.
-
-
-
+Finally, the user is asked again a query, in such a way that the conversation can continue. 
 

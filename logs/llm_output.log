@@ -1594,3 +1594,7 @@ ValueError: Missing required arguments: {'bus_data'}
 2025-11-08 19:35:59,456 Processing request of type ListResourcesRequest
 2025-11-08 19:35:59,459 Processing request of type ListPromptsRequest
 2025-11-08 19:35:59,460 -------- NEW CONVERSATION --------
+2025-11-14 16:03:33,860 Processing request of type ListToolsRequest
+2025-11-14 16:03:33,866 Processing request of type ListResourcesRequest
+2025-11-14 16:03:33,869 Processing request of type ListPromptsRequest
+2025-11-14 16:03:33,871 -------- NEW CONVERSATION --------
