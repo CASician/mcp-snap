@@ -531,7 +531,7 @@ async def get_location(
 
 @mcp.resource("file://snap/agencies")
 # SPERIMENTALE
-async def get_agencies():
+async def resource_get_agencies():
     """
     Returns the bus agencies. If the user asks for a specific city or area, look for a correspondence
     in the output of this function.

@@ -129,7 +129,6 @@ class MCPClient:
         # ========== SYSTEM MESSAGE + TOOL DEFINITION ==========
         self.messages.append({"role": "system", "content": SYSTEM_MESSAGE + build_system_tools(self.tools, "TOOL") + build_system_tools(self.resources, "RESOURCE") })
         # print(self.messages)
-        # TODO ADD LOGIC FOR RESOURCES AND PROMPTS HERE?
 
         # ========== BASH LOGS ==========   
         print(f"\n{BLUE}Connected to server with: {NC}")
@@ -185,10 +184,10 @@ class MCPClient:
         #         "parameters": tool.inputSchema
         #     })
 
-        # # Resources as "get_resource" functions
+        # # Resources as "resource" functions
         # for resource in self.resources:
         #     functions.append({
-        #         "name": f"get_resource_{resource.name}",
+        #         "name": f"resource_{resource.name}",
         #         "description": f"Access resource: {resource.name}. {resource.description}",
         #         "parameters": {"type": "object", "properties": {}}
         #     })
@@ -237,9 +236,9 @@ class MCPClient:
             # Handle 3 possible categories: tool / resource / prompt 
             result_content = None
 
-            if fn_name.startswith("get_resource_"):
-                res_name = fn_name.replace("get_resource_", "")
-                resource = next((r for r in self.resources if r.name == res_name), None)
+            if fn_name.startswith("resource_"):
+                # res_name = fn_name.replace("resource_", "")
+                resource = next((r for r in self.resources if r.name == fn_name), None)
                 if not resource:
                     result_content = f"Resource '{res_name}' not found."
                 else:
