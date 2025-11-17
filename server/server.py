@@ -791,7 +791,7 @@ async def plan_route(start: str, end: str, route_type: str = None, date: str = N
     """
     intro = "I want to find the shortest and fastest route possible, using the tool 'route_shortest_path', but before I tell you that, there are some steps you need to take!"
 
-    gps_position = f"The starting point is {start}. But the first thing you need to do is to look this up on internet and try to find the exact gps position. If it seems you can't find it, you can use the tool 'get_location' from this server. Use the default GPS points, but search in a 10 km radius. Then proceed with the exact same thing for the destination, which is {end}."
+    gps_position = f"The starting point is {start}. But the first thing you need to do is to look this up on internet and try to find the exact gps position. If it seems you can't find it, you can use the tool 'iot_search' from this server. Use the default GPS points, but search in a 10 km radius. Then proceed with the exact same thing for the destination, which is {end}."
 
     route_type_msg = f"I prefer to travel (by/with/on) {route_type}, so make sure that in the final call is correctly selected."
 

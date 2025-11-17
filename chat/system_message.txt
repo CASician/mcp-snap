@@ -15,15 +15,16 @@ And after you answered once with the JSON object, do not repeat it, but process 
 6. If you see that a tool call has already been made, analyze it and show the results to use user. Do not execute it again. 
 
 Below is the list of tools you can call. 
-When using a tool, you MUST respond in the following JSON format and ONLY with this:
+When using a tool, you MUST respond in the following JSON format inside the ```json ``` delimitators:
 
-{{
-  "function_call": {{
+```json
+{
+  "function_call": {
     "name": "<tool_name>",
-    "arguments": {{
+    "arguments": {
       "<arg1>": "<value1>",
       "<arg2>": "<value2>"
-    }}
-  }}
-}}
-
+    }
+  }
+}
+```

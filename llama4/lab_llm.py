@@ -29,6 +29,73 @@ def load_json(path, required_keys):
 # ========== REGEX ========== 
 JSON_START_PATTERN = r'\{\s*\\?["\']function_call["\']\s*:\s*'
 
+def parse_llm_answer_for_function(answer: str):
+    """
+    Parses an LLM answer to separate a 'function_call' JSON body 
+    from any surrounding reasoning text.
+
+    This function prioritizes finding JSON wrapped in markdown fences, 
+    as it is the most reliable method for mixed content.
+
+    Args:
+        answer: The raw string response from the LLM.
+
+    Returns:
+        A tuple: (parsed_function_call (dict or None), reasoning_text (str))
+    """
+    parsed_function_call = None
+    reasoning_text = answer.strip() # Default to the entire answer
+
+    # 1. Check for JSON wrapped in code fences (MOST ROBUST)
+    # The (?s) flag makes the dot match newlines. It looks for ```json, then 
+    # captures the content non-greedily (.*?), and ends with ```.
+    match = re.search(r'(?s)\s*```json\n*(.*?)\n*```\s*', answer)
+    
+    if match:
+        json_string = match.group(1).strip()
+        
+        # Calculate indices to correctly exclude the fences and JSON from the reasoning text
+        match_full_block = match.group(0)
+        json_start_index = answer.find(match_full_block)
+        json_end_index = json_start_index + len(match_full_block)
+        
+        try:
+            parsed_json = json.loads(json_string)
+            
+            if isinstance(parsed_json, dict) and "function_call" in parsed_json:
+                parsed_function_call = parsed_json["function_call"]
+                
+                # Reasoning is everything before and after the matched block
+                reasoning_text = (answer[:json_start_index] + answer[json_end_index:]).strip()
+                logger.info("PARSE SUCCESS: Found JSON in markdown fences (Text + JSON + Text/Text + JSON/JSON + Text)")
+                return parsed_function_call, reasoning_text
+
+        except (json.JSONDecodeError, TypeError):
+            logger.info("PARSE FAIL: JSON found in fences but could not be parsed or was invalid.")
+            # Fall through to the next check
+
+    # 2. Check for a Pure JSON response (Scenario: Only JSON)
+    if not parsed_function_call:
+        try:
+            parsed_pure = json.loads(answer.strip())
+            
+            if isinstance(parsed_pure, dict) and "function_call" in parsed_pure:
+                parsed_function_call = parsed_pure["function_call"]
+                reasoning_text = "" # No reasoning text if it's pure JSON
+                logger.info("PARSE SUCCESS: llm invoked function with PURE JSON answer.")
+                return parsed_function_call, reasoning_text
+
+        except (json.JSONDecodeError, TypeError):
+            logger.info("PARSE FAIL: Answer is not PURE JSON.")
+            # Fall through, leaving parsed_function_call as None
+
+    # 3. Final Fallback: No valid function call found.
+    if not parsed_function_call:
+        logger.info("PARSE FINAL: No valid function call JSON found. Answer treated as reasoning text.")
+    
+    # If we reached here, parsed_function_call is None, and reasoning_text is the full answer.
+    return parsed_function_call, reasoning_text
+
 # For FUNCTION RECOGNITION in LLM response. 
 def find_start_regex(text):
     match = re.search(JSON_START_PATTERN, text)
@@ -138,41 +205,7 @@ class LabLLM:
             
             # ========== FIND FUNCTION IN ANSWER ==========
             # Divide LLM answer in `parsed_function_call` = JSON and `reasoning_text` = Text
-
-            # 1. Look for combined (Text + JSON) response. Not (Text + JSON + Text TODO!)
-            json_start = find_start_regex(answer) 
-            
-            if json_start != -1:
-                json_string = answer[json_start:].strip()
-                
-                try:
-                    parsed_json = json.loads(json_string)
-                    
-                    if isinstance(parsed_json, dict) and "function_call" in parsed_json:
-                        parsed_function_call = parsed_json["function_call"]
-                        reasoning_text = answer[:json_start].strip()
-                        logger.info("PARSE 1: Separate REASONING from FUNCTION CALL")
-
-                except (json.JSONDecodeError, TypeError):
-                    # Fall through to the next check if parsing combined JSON fails
-                    logger.info("PARSE 1 FAIL: Separate REASONING from FUNCTION CALL")
-                    pass
-
-            # 2. Check for Pure JSON response
-            if not parsed_function_call:
-                try:
-                    parsed_pure = json.loads(answer)
-                    
-                    if isinstance(parsed_pure, dict) and "function_call" in parsed_pure:
-                        parsed_function_call = parsed_pure["function_call"]
-                        logger.info("PARSE 2: llm invoked correctly a function")
-
-                except (json.JSONDecodeError, TypeError):
-                    # No valid JSON found, treat everything as plain text.
-                    logger.info("PARSE 2 FAIL: llm DID NOT invoke correctly a function")
-                    pass
-
-            # 3. TODO Check for combined answer (Text + JSON + Text) and reconsider order. 
+            parsed_function_call, reasoning_text = parse_llm_answer_for_function(answer) 
                 
         # ========== BUILD JSON-FUNCTION_CALL OPENAI STYLE ========== 
         if parsed_function_call:
