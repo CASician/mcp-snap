@@ -123,7 +123,7 @@ This structure mimics what is the standard OpenAI structure. But it needs improv
 If you want to check if the model has allucinated or it actually executed a function call, open `log/llm_output.log`, scroll until the end and look for how the first answer has been parsed. 
 If you see:
 ```
-PARSE 1/2/3
+PARSE SUCCESS
 FIRST RESPONSE: JSON OBJECT 
 FUNCTION CALLED: function_name
 ```
@@ -131,9 +131,7 @@ the function has been called successfully with the parameters stated in FIRST RE
 Otherwise, you will only see: 
 
 ```
-PARSE 1 FAIL
-PARSE 2 FAIL
-PARSE 3 FAIL
+PARSE FAIL
 FIRST RESPONSE: [full answer received in chat]
 ```
 
