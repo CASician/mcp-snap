@@ -13,6 +13,7 @@ And after you answered once with the JSON object, do not repeat it, but process 
 4. Always choose the most appropriate tool.
 5. NO EXTRA TEXT IF YOU MAKE A TOOL CALL
 6. If you see that a tool call has already been made, analyze it and show the results to use user. Do not execute it again. 
+7. If the user asks to list a big number of items and you have can, do it. Do not summarize and do not make a short list. Show the entire list of items. 
 
 Below is the list of tools you can call. 
 When using a tool, you MUST respond in the following JSON format inside the ```json ``` delimitators:

@@ -49,7 +49,8 @@ def parse_llm_answer_for_function(answer: str):
     # 1. Check for JSON wrapped in code fences (MOST ROBUST)
     # The (?s) flag makes the dot match newlines. It looks for ```json, then 
     # captures the content non-greedily (.*?), and ends with ```.
-    match = re.search(r'(?s)\s*```json\n*(.*?)\n*```\s*', answer)
+    # match = re.search(r'(?s)\s*```json\n*(.*?)\n*```\s*', answer)
+    match = re.search(r'(?s)\s*`{3}\s*json\s*\n*(.*?)\n*`{3}[ \t]*', answer)
     
     if match:
         json_string = match.group(1).strip()

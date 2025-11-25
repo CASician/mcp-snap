@@ -290,7 +290,8 @@ class MCPClient:
         print_centered(f"{RED}MCP Client Started!{NC}")
         print_centered("Type your queries or 'quit' to exit.")
         print_centered("Type 'prompt' to select a pre-written prompt.") 
-        valid_options = ['prompts', 'prompt', 'prt', 'prp', 'pro', 'proptms', 'promt', 'promp']
+        valid_options_prompts = ['prompts', 'prompt', 'prt', 'prp', 'pro', 'proptms', 'promt', 'promp']
+        valid_options_quitting = ['quit', 'exit', 'qui', 'exi', 'uit', 'xit']
 
         while True:
             try:
@@ -300,7 +301,7 @@ class MCPClient:
                 if query.lower() == 'quit':
                     break
                 # =========== PRE-WRITTEN PROMPTS HANDLING ==========
-                if query.lower() in valid_options:
+                if query.lower() in valid_options_prompts:
                     chosen_prompt, user_args  = self.choose_prompt.start(self.prompts)
                     if chosen_prompt == None:
                         continue 
