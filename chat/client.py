@@ -298,7 +298,7 @@ class MCPClient:
                 query = input(f"\n {GREEN}>>> Query: {NC}").strip()
 
                 # =========== QUITTING THE CHAT INTERFACE ==========
-                if query.lower() == 'quit':
+                if query.lower() in valid_options_quitting: 
                     break
                 # =========== PRE-WRITTEN PROMPTS HANDLING ==========
                 if query.lower() in valid_options_prompts:
