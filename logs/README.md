@@ -8,9 +8,9 @@ All queries, raw model responses, and tool calls are saved in:
 llm_output.log
 ```
 
-> [! TIP]
+> [!TIP]
 > If the file dimensions makes log reading difficult, change the name of the file currently inspecting. 
-> When the application doesn't find a file named `llm_output.log` it creates a new one. 
+> When the application is used again and doesn't find a file named `llm_output.log` it creates a new one. 
 
 Example excerpt:
 
