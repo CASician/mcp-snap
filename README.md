@@ -5,7 +5,7 @@ This repository contains a chat interface that responds using `llama4-interface`
 ## How to use
 
 ### 1. Connect to DISIT LAB LLM 
-> [!TIP]
+> [!NOTE]
 > Skip this step if you are using DISIT VM. 
 
 In the directory `llama4` create a new file called `user_credentials.json`.
