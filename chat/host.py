@@ -66,7 +66,7 @@ def print_centered(text_to_center_or_fstring):
 with open("system_message.txt", "r", encoding="utf-8") as f:
     SYSTEM_MESSAGE = f.read()
 
-class MCPClient:
+class MCPHost:
     def __init__(self):
         """
         - session and exit_stack are needed for the server.
@@ -324,16 +324,16 @@ class MCPClient:
 async def main():
     # This file needs the path to the server.py file to run.
     if len(sys.argv) < 2:
-        print("Usage: python client.py <path_to_server_script>")
+        print("Usage: python host.py <path_to_server_script>")
         sys.exit(1)
 
-    client = MCPClient()
+    host = MCPHost()
     try:
-        await client.connect_to_server(sys.argv[1])
+        await host.connect_to_server(sys.argv[1])
         logger.info("-------- NEW CONVERSATION --------")
-        await client.chat_loop()
+        await host.chat_loop()
     finally:
-        await client.cleanup()
+        await host.cleanup()
 
 if __name__ == "__main__":
     asyncio.run(main())
