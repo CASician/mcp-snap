@@ -23,7 +23,7 @@ This instruction is specified in `system_message.txt`.
 Inside `client.py` the `system_message` is passed to the llm as the first object in the `messages`list. 
 The description of all available tools and their arguments is also passed to the `messages` list. Since all the descriptions are sent to the client by the server, in order to add them to the list of messages `tool_schema_builder.py` is used to create a string for each primitive that the server exposes. 
 
-> [! NOTE]
+> [!NOTE]
 > The function calling in OpenAI style implies that the functions are passed at every invokation.
 > But for token optimization, in this implementation, they are passed only once per conversation with the system message. 
 
