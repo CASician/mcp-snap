@@ -1,4 +1,4 @@
-# MCP Client 
+# MCP Host 
 
 This repository contains an asynchronous **MCP client** that connects to an MCP-compatible server (Python) and integrates with **Llama model** to process user queries.  
 It automatically detects and uses tools provided by the server via MCP, allowing LLMs to call them dynamically.
@@ -14,13 +14,13 @@ It automatically detects and uses tools provided by the server via MCP, allowing
 
 ## Chat Interface
 
-In `client.py`, the main logic serves the purpose to create a chat interface between the user and the connected LLM. 
+In `host.py`, the main logic serves the purpose to create a chat interface between the user and the connected LLM. 
 
 ### System Message
 
 The LLM is instructed that can use server primitives such as Resources or Tools. 
 This instruction is specified in `system_message.txt`. 
-Inside `client.py` the `system_message` is passed to the llm as the first object in the `messages`list. 
+Inside `host.py` the `system_message` is passed to the llm as the first object in the `messages` list. 
 The description of all available tools and their arguments is also passed to the `messages` list. Since all the descriptions are sent to the client by the server, in order to add them to the list of messages `tool_schema_builder.py` is used to create a string for each primitive that the server exposes. 
 
 > [!NOTE]

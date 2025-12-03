@@ -287,7 +287,7 @@ class MCPHost:
         Run an interactive chat loop. Type 'quit' to exit. The user will have a chat-like cli interface. You can type the query when ">>> Query:" is shown. 
         """
         print()
-        print_centered(f"{RED}MCP Client Started!{NC}")
+        print_centered(f"{RED}MCP Started!{NC}")
         print_centered("Type your queries or 'quit' to exit.")
         print_centered("Type 'prompt' to select a pre-written prompt.") 
         valid_options_prompts = ['prompts', 'prompt', 'prt', 'prp', 'pro', 'proptms', 'promt', 'promp']

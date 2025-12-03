@@ -43,7 +43,7 @@ PROMPTS: [...]
 Once connected, you can enter queries interactively:
 
 ```
-MCP Client Started!
+MCP Started!
 Type your queries or 'quit' to exit.
 Type 'prompt' to select a pre-written prompt. 
 
@@ -62,7 +62,7 @@ The main files are the following:
 ```
 MCP Snap/
 ├── chat/
-│   ├── client.py               # main logic
+│   ├── host.py                 # main logic
 │   ├── snap4_prompts.py        # pre-written prompts handler 
 │   ├── tool_schema_builder.py  # adds tools to system message 
 │   ├── system_message.txt      # main instructions for the model 
@@ -87,7 +87,7 @@ MCP Snap/
 
 ### What happens to the user's query?
 
-The user's query is handled by the `chat_loop()` function in `chat/client.py`. It runs a loop until the user decides to quit. The messages are all stored and handled by `process_query(query)`. More precisely:
+The user's query is handled by the `chat_loop()` function in `chat/host.py`. It runs a loop until the user decides to quit. The messages are all stored and handled by `process_query(query)`. More precisely:
 
 ```
 Process a query using LLM and available tools/resources/prompts. 
