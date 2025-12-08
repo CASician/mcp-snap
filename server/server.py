@@ -530,21 +530,14 @@ async def get_location(
 # ------------------------ PUBLIC TRANSPORT ------------------------
 
 @mcp.resource("file://snap/agencies")
-# SPERIMENTALE
 async def resource_get_agencies():
     """
     Returns the bus agencies. If the user asks for a specific city or area, look for a correspondence
     in the output of this function.
     """
-    url = f"{TPL_BASE_URL}/tpl/agencies"
 
-    """
-    [NOTA PER LA TESI]
-    Chiamare l'endpoint non credo sia ideale per queste situazioni. Idealmente vorrei farlo una volta al giorno/settimana.
-    Il risultato lo salvo in un file a parte e questa funzione legge quel file. 
-    Per aggiornare quel file creerei un tool (disponibile anche al client) che gira sul server e aggiorna il file con regolarità
-    Stessa cosa vale per tutti gli altri mcp.resources
-    """
+        url = f"{TPL_BASE_URL}/tpl/agencies"
+
     async with httpx.AsyncClient() as client:
         try:
             resp = await client.get(url, timeout=10)
